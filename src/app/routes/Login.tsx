@@ -9,8 +9,11 @@ type Status = 'idle' | 'sending' | 'sent' | 'error'
 export function Login() {
   const { session, loading } = useAuth()
   const [email, setEmail] = useState('')
+  const [code, setCode] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const [verifying, setVerifying] = useState(false)
+  const [codeError, setCodeError] = useState('')
 
   if (!loading && session) {
     return <Navigate to="/hoje" replace />
@@ -39,6 +42,21 @@ export function Login() {
     setStatus('sent')
   }
 
+  async function handleVerifyCode(e: FormEvent) {
+    e.preventDefault()
+    setVerifying(true)
+    setCodeError('')
+
+    const { error } = await supabase.auth.verifyOtp({ email: email.trim(), token: code.trim(), type: 'email' })
+
+    setVerifying(false)
+    if (error) {
+      setCodeError('Código errado ou expirado. Confere os 6 dígitos e tenta de novo.')
+      return
+    }
+    // sessão entra sozinha via onAuthStateChange; RequireAuth cuida do redirect
+  }
+
   return (
     <div
       style={{
@@ -62,16 +80,39 @@ export function Login() {
       </div>
 
       {status === 'sent' ? (
-        <div style={{ width: '100%', maxWidth: 340, textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <p style={{ fontSize: 14.5, lineHeight: 1.5 }}>
-            Olhe seu e-mail. Mandamos um link para <strong>{email}</strong>.
+        <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <p style={{ fontSize: 14.5, lineHeight: 1.5, textAlign: 'center' }}>
+            Olhe seu e-mail. Mandamos um link e um código de 6 dígitos para <strong>{email}</strong>.
           </p>
+
+          <form onSubmit={handleVerifyCode} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={{ fontSize: 12, color: 'var(--color-neutral-700)', textAlign: 'center' }}>
+              Instalou na tela de início? Use o código — o link abre no navegador, não no app instalado.
+            </div>
+            <input
+              className="input"
+              type="text"
+              inputMode="numeric"
+              autoFocus
+              placeholder="000000"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              style={{ minHeight: 44, textAlign: 'center', fontSize: 20, letterSpacing: '0.3em' }}
+            />
+            {codeError && <div style={{ fontSize: 13, color: 'var(--color-accent-700)', textAlign: 'center' }}>{codeError}</div>}
+            <button type="submit" className="btn btn-primary btn-block" disabled={verifying || !code} style={{ minHeight: 44 }}>
+              {verifying ? 'Confirmando…' : 'Confirmar código'}
+            </button>
+          </form>
+
           <button
             type="button"
             className="btn btn-secondary btn-block"
             onClick={() => {
               setStatus('idle')
               setEmail('')
+              setCode('')
+              setCodeError('')
             }}
           >
             Usar outro e-mail
