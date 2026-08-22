@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/organic-97c1da00-407a-4301-886a-1eaa170ec1e1/styles.css">
+<script src="_ds/organic-97c1da00-407a-4301-886a-1eaa170ec1e1/_ds_bundle.js"></script>
+<style>
+@keyframes sheetUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes dropIn{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+html,body{margin:0;height:100%;background:#f5ead8;overscroll-behavior:none}
+a{color:#b2622d}a:hover{color:#8f4d21}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tiny Home">
+<meta name="theme-color" content="#f5ead8">
+</helmet>
+<template id="__bundler_thumbnail" data-bg-color="#f5ead8">
+  <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <rect width="512" height="512" fill="#f5ead8"></rect>
+    <rect x="96" y="96" width="320" height="320" rx="100" fill="#c67139"></rect>
+    <path d="M168 376V294a88 88 0 0 1 176 0v82a16 16 0 0 1-16 16h-40v-62a32 32 0 0 0-64 0v62h-40a16 16 0 0 1-16-16z" fill="#fff8ef"></path>
+  </svg>
+</template>
+
+<div style="height:100dvh;position:relative;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);overflow:hidden">
+
+  <div style="flex:1;overflow:auto;-webkit-overflow-scrolling:touch">
+
+    <sc-if value="{{ isHoje }}" hint-placeholder-val="{{ true }}">
+      <div style="{{ padScreen }}">
+
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="flex:1">
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent-700);font-weight:700">Sexta, 21 de agosto</div>
+            <h1 style="font-family:var(--font-heading);font-size:38px;line-height:1.05;margin:6px 0 0">Hoje em casa</h1>
+          </div>
+          <div style="display:flex;margin-top:26px">
+            <div style="width:34px;height:34px;border-radius:999px;background:var(--color-accent);color:#fff8ef;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border:2px solid var(--color-bg)">E</div>
+            <div style="width:34px;height:34px;border-radius:999px;background:var(--color-accent-2);color:#fbfdf5;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border:2px solid var(--color-bg);margin-left:-10px">L</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:7px">
+          <sc-for list="{{ homeChips }}" as="p" hint-placeholder-count="3">
+            <button onClick="{{ p.pick }}" style="{{ p.style }}">{{ p.label }}</button>
+          </sc-for>
+        </div>
+
+        <div style="background:var(--color-surface);border-radius:28px;padding:18px 20px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <div style="font-family:var(--font-heading);font-size:22px">{{ progressLabel }}</div>
+            <div style="font-size:12px;color:var(--color-neutral-700)">{{ progressPct }}</div>
+          </div>
+          <div style="height:10px;border-radius:999px;background:var(--color-neutral-300);overflow:hidden">
+            <div style="{{ progressStyle }}"></div>
+          </div>
+          <div style="font-size:12.5px;color:var(--color-neutral-700)">{{ reminderLine }}</div>
+        </div>
+
+        <sc-if value="{{ hasLate }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b2622d" stroke-width="2.75" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+              <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-accent-700)">Passou da hora</div>
+            </div>
+            <sc-for list="{{ lateTasks }}" as="t" hint-placeholder-count="2">
+              <div onClick="{{ t.open }}" style="display:flex;align-items:center;gap:13px;padding:13px 15px;background:var(--color-accent-100);border:1px solid var(--color-accent-300);border-radius:22px;cursor:pointer">
+                <button onClick="{{ t.toggle }}" style="{{ t.circle }}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff8ef" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="{{ t.tick }}"><path d="M20 6 9 17l-5-5"></path></svg>
+                </button>
+                <div style="flex:1;min-width:0">
+                  <div style="{{ t.titleStyle }}">{{ t.title }}</div>
+                  <div style="font-size:11.5px;color:var(--color-accent-700);margin-top:2px">{{ t.lateLabel }}</div>
+                </div>
+                <div style="{{ t.avatar }}">{{ t.initial }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700)">{{ todayLabel }}</div>
+          <sc-for list="{{ todayTasks }}" as="t" hint-placeholder-count="5">
+            <div onClick="{{ t.open }}" style="display:flex;align-items:center;gap:13px;padding:13px 15px;background:var(--color-surface);border-radius:22px;cursor:pointer">
+              <button onClick="{{ t.toggle }}" style="{{ t.circle }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff8ef" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="{{ t.tick }}"><path d="M20 6 9 17l-5-5"></path></svg>
+              </button>
+              <div style="flex:1;min-width:0">
+                <div style="{{ t.titleStyle }}">{{ t.title }}</div>
+                <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:2px">{{ t.meta }}</div>
+              </div>
+              <div style="{{ t.avatar }}">{{ t.initial }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div onClick="{{ goCompras }}" style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--color-accent-2-200);border-radius:26px;cursor:pointer">
+          <div style="width:42px;height:42px;border-radius:999px;background:var(--color-accent-2);display:flex;align-items:center;justify-content:center;flex:none">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbfdf5" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-family:var(--font-heading);font-size:17px">Feira do sábado</div>
+            <div style="font-size:12px;color:var(--color-accent-2-800);margin-top:1px">{{ mercadoLabel }}</div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d472b" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+        </div>
+
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isQuadro }}" hint-placeholder-val="{{ true }}">
+      <div style="{{ padBoard }}">
+        <div style="padding:0 20px">
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <h1 style="font-family:var(--font-heading);font-size:38px;line-height:1.05;margin:0;flex:1">Quadro</h1>
+            <button onClick="{{ toggleLayout }}" style="{{ layoutBtn }}">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="{{ iconCols }}"><rect width="18" height="18" x="3" y="3" rx="4"></rect><path d="M9 3v18"></path><path d="M15 3v18"></path></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="{{ iconRows }}"><path d="M3 6h18"></path><path d="M3 12h18"></path><path d="M3 18h18"></path></svg>
+              {{ layoutLabel }}
+            </button>
+          </div>
+          <div style="display:flex;gap:7px;overflow-x:auto;margin:14px -20px 0;padding:0 20px 2px">
+            <sc-for list="{{ groupChips }}" as="g" hint-placeholder-count="4">
+              <button onClick="{{ g.pick }}" style="{{ g.style }}">{{ g.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;margin-top:10px">
+            <sc-for list="{{ peopleChips }}" as="p" hint-placeholder-count="3">
+              <button onClick="{{ p.pick }}" style="{{ p.style }}">{{ p.label }}</button>
+            </sc-for>
+            <div style="flex:1"></div>
+            <button onClick="{{ toggleHideDone }}" style="{{ hideBtn }}">{{ hideLabel }}</button>
+          </div>
+        </div>
+
+        <sc-if value="{{ isColunas }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;gap:14px;overflow-x:auto;padding:18px 20px 8px;scroll-snap-type:x mandatory">
+            <sc-for list="{{ columns }}" as="col" hint-placeholder-count="3">
+              <div style="flex:none;width:268px;scroll-snap-align:start;display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;align-items:center;gap:8px;padding:0 4px">
+                  <div style="{{ col.dot }}"></div>
+                  <div style="font-family:var(--font-heading);font-size:19px">{{ col.label }}</div>
+                  <div style="font-size:12px;color:var(--color-neutral-600)">{{ col.count }}</div>
+                </div>
+                <sc-for list="{{ col.tasks }}" as="t" hint-placeholder-count="3">
+                  <div onClick="{{ t.open }}" style="{{ t.card }}">
+                    <div style="display:flex;align-items:flex-start;gap:11px">
+                      <button onClick="{{ t.toggle }}" style="{{ t.circle }}">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff8ef" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="{{ t.tick }}"><path d="M20 6 9 17l-5-5"></path></svg>
+                      </button>
+                      <div style="{{ t.titleStyle }}">{{ t.title }}</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:7px">
+                      <span class="tag tag-neutral">{{ t.room }}</span>
+                      <span style="{{ t.whenStyle }}">{{ t.when }}</span>
+                      <div style="{{ t.avatarSm }}">{{ t.initial }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+                <button onClick="{{ col.add }}" style="display:flex;align-items:center;justify-content:center;gap:7px;padding:12px;border:1.5px dashed var(--color-neutral-400);background:transparent;border-radius:22px;color:var(--color-neutral-700);font-family:var(--font-body);font-size:13px;cursor:pointer">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                  Nova tarefa
+                </button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isLista }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:18px 20px 0;display:flex;flex-direction:column;gap:20px">
+            <sc-for list="{{ columns }}" as="col" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;gap:8px;position:sticky;top:0;background:var(--color-bg);padding:6px 4px;z-index:5">
+                  <div style="{{ col.dot }}"></div>
+                  <div style="font-family:var(--font-heading);font-size:19px;flex:1">{{ col.label }}</div>
+                  <div style="font-size:12px;color:var(--color-neutral-600)">{{ col.count }}</div>
+                </div>
+                <sc-for list="{{ col.tasks }}" as="t" hint-placeholder-count="3">
+                  <div onClick="{{ t.open }}" style="{{ t.row }}">
+                    <button onClick="{{ t.toggle }}" style="{{ t.circle }}">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff8ef" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="{{ t.tick }}"><path d="M20 6 9 17l-5-5"></path></svg>
+                    </button>
+                    <div style="flex:1;min-width:0">
+                      <div style="{{ t.titleStyle }}">{{ t.title }}</div>
+                      <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:2px">{{ t.rowMeta }}</div>
+                    </div>
+                    <div style="{{ t.avatar }}">{{ t.initial }}</div>
+                  </div>
+                </sc-for>
+                <button onClick="{{ col.add }}" style="display:flex;align-items:center;gap:8px;padding:11px 15px;border:0;background:transparent;color:var(--color-neutral-700);font-family:var(--font-body);font-size:13px;cursor:pointer;text-align:left">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                  Nova tarefa
+                </button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isComprasIndex }}" hint-placeholder-val="{{ true }}">
+      <div style="{{ padScreen }}">
+        <div>
+          <h1 style="font-family:var(--font-heading);font-size:38px;line-height:1.05;margin:0">Compras</h1>
+          <p style="font-size:13px;color:var(--color-neutral-700);margin:6px 0 0">Uma lista para cada lugar aonde vocês vão.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <sc-for list="{{ lists }}" as="l" hint-placeholder-count="4">
+            <div onClick="{{ l.open }}" style="{{ l.card }}">
+              <div style="{{ l.blob }}"></div>
+              <div style="font-family:var(--font-heading);font-size:20px;position:relative">{{ l.name }}</div>
+              <div style="font-size:12px;position:relative;opacity:.75">{{ l.sub }}</div>
+              <div style="display:flex;align-items:center;gap:5px;margin-top:8px;position:relative">
+                <div style="{{ l.bar }}"></div>
+                <span style="font-size:11px;opacity:.7">{{ l.pct }}</span>
+              </div>
+            </div>
+          </sc-for>
+          <button onClick="{{ openNewList }}" style="min-height:132px;border:1.5px dashed var(--color-neutral-400);background:transparent;border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--color-neutral-700);font-family:var(--font-body);font-size:13.5px;cursor:pointer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+            Nova lista
+          </button>
+        </div>
+        <div style="background:var(--color-surface);border-radius:26px;padding:16px 18px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:10px">Compra sempre</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ frequentes }}" as="f" hint-placeholder-count="6">
+              <button onClick="{{ f.add }}" style="{{ f.style }}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                {{ f.name }}
+              </button>
+            </sc-for>
+          </div>
+          <div style="font-size:11.5px;color:var(--color-neutral-600);margin-top:11px">Vai direto para a lista do Mercado.</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isListOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ listHeaderWrap }}">
+        <div style="padding:calc(env(safe-area-inset-top) + 18px) 20px 20px">
+          <button onClick="{{ closeList }}" style="display:flex;align-items:center;gap:4px;background:transparent;border:0;padding:0;color:inherit;font-family:var(--font-body);font-size:13px;cursor:pointer;opacity:.75">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+            Compras
+          </button>
+          <h1 style="font-family:var(--font-heading);font-size:34px;line-height:1.05;margin:12px 0 4px">{{ listName }}</h1>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px">
+            <div style="font-size:13px;opacity:.8">{{ listSub }}</div>
+            <button onClick="{{ toggleShop }}" style="{{ shopBtn }}">{{ shopLabel }}</button>
+          </div>
+        </div>
+      </div>
+      <div style="{{ padList }}">
+        <sc-for list="{{ listSections }}" as="s" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-if value="{{ s.showName }}" hint-placeholder-val="{{ true }}">
+              <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);padding-left:4px">{{ s.name }}</div>
+            </sc-if>
+            <sc-for list="{{ s.items }}" as="i" hint-placeholder-count="4">
+              <div onClick="{{ i.toggle }}" style="{{ i.row }}">
+                <div style="{{ i.box }}">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff8ef" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" style="{{ i.tick }}"><path d="M20 6 9 17l-5-5"></path></svg>
+                </div>
+                <div style="{{ i.label }}">{{ i.name }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+        <sc-if value="{{ listEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:40px 20px;color:var(--color-neutral-600);font-size:14px">{{ emptyLabel }}</div>
+        </sc-if>
+      </div>
+      <div style="{{ addBarWrap }}">
+        <div style="display:flex;gap:8px;align-items:center;background:var(--color-bg);border:1px solid var(--color-neutral-400);border-radius:999px;padding:5px 5px 5px 16px;box-shadow:var(--shadow-md)">
+          <input value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onDraftKey }}" placeholder="Adicionar item…" style="flex:1;border:0;outline:none;background:transparent;font-family:var(--font-body);font-size:15px;color:var(--color-text);min-width:0" />
+          <button onClick="{{ addItem }}" style="width:38px;height:38px;flex:none;border-radius:999px;border:0;background:var(--color-accent);display:flex;align-items:center;justify-content:center;cursor:pointer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff8ef" stroke-width="3" stroke-linecap="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPerfil }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ padScreen }}">
+        <div style="display:flex;align-items:center;gap:14px">
+          <svg width="52" height="52" viewBox="0 0 32 32" style="flex:none;border-radius:16px"><rect width="32" height="32" rx="10" fill="#c67139"></rect><path d="M8.5 24.5v-8.2a7.5 7.5 0 0 1 15 0v8.2a1.5 1.5 0 0 1-1.5 1.5h-3.6v-5.6a2.4 2.4 0 0 0-4.8 0V26h-3.6a1.5 1.5 0 0 1-1.5-1.5z" fill="#fff8ef"></path></svg>
+          <div>
+            <h1 style="font-family:var(--font-heading);font-size:32px;line-height:1;margin:0">Tiny Home</h1>
+            <p style="font-size:13px;color:var(--color-neutral-700);margin:5px 0 0">A casa da Evelyn e do Leo.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px">
+          <div style="flex:1;background:var(--color-accent-200);border-radius:26px;padding:18px;display:flex;flex-direction:column;gap:4px">
+            <div style="width:38px;height:38px;border-radius:999px;background:var(--color-accent);color:#fff8ef;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">E</div>
+            <div style="font-family:var(--font-heading);font-size:19px;margin-top:8px">Evelyn</div>
+            <div style="font-size:12px;color:var(--color-accent-800)">{{ rafaDone }} feitas esta semana</div>
+          </div>
+          <div style="flex:1;background:var(--color-accent-2-200);border-radius:26px;padding:18px;display:flex;flex-direction:column;gap:4px">
+            <div style="width:38px;height:38px;border-radius:999px;background:var(--color-accent-2);color:#fbfdf5;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">L</div>
+            <div style="font-family:var(--font-heading);font-size:19px;margin-top:8px">Leo</div>
+            <div style="font-size:12px;color:var(--color-accent-2-800)">{{ juDone }} feitas esta semana</div>
+          </div>
+        </div>
+
+        <div style="background:var(--color-surface);border-radius:26px;padding:18px 20px;display:flex;flex-direction:column;gap:4px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:6px">Avisos</div>
+          <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid var(--color-divider)">
+              <div style="flex:1">
+                <div style="font-size:14.5px;font-weight:600">{{ n.title }}</div>
+                <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:2px">{{ n.sub }}</div>
+              </div>
+              <button onClick="{{ n.toggle }}" style="{{ n.track }}"><span style="{{ n.knob }}"></span></button>
+            </div>
+          </sc-for>
+          <div style="margin-top:14px;background:var(--color-neutral-200);border-radius:20px;padding:13px 14px;display:flex;gap:11px;align-items:flex-start">
+            <svg width="30" height="30" viewBox="0 0 32 32" style="flex:none;border-radius:9px"><rect width="32" height="32" rx="10" fill="#c67139"></rect><path d="M8.5 24.5v-8.2a7.5 7.5 0 0 1 15 0v8.2a1.5 1.5 0 0 1-1.5 1.5h-3.6v-5.6a2.4 2.4 0 0 0-4.8 0V26h-3.6a1.5 1.5 0 0 1-1.5-1.5z" fill="#fff8ef"></path></svg>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;justify-content:space-between;gap:8px"><div style="font-size:12.5px;font-weight:700">Tiny Home</div><div style="font-size:11px;color:var(--color-neutral-600)">19:00</div></div>
+              <div style="font-size:12.5px;margin-top:2px;line-height:1.35">{{ notifPreview }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--color-surface);border-radius:26px;padding:18px 20px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:12px">Aparência</div>
+          <div style="font-size:13.5px;font-weight:600;margin-bottom:8px">Quadro</div>
+          <div style="display:flex;gap:9px;margin-bottom:18px">
+            <button onClick="{{ setColunas }}" style="{{ optColunas }}">Colunas</button>
+            <button onClick="{{ setLista }}" style="{{ optLista }}">Lista agrupada</button>
+          </div>
+          <div style="font-size:13.5px;font-weight:600;margin-bottom:8px">Navegação</div>
+          <div style="display:flex;gap:9px">
+            <button onClick="{{ setAbas }}" style="{{ optAbas }}">Barra de abas</button>
+            <button onClick="{{ setPilula }}" style="{{ optPilula }}">Pílula flutuante</button>
+          </div>
+        </div>
+
+        <div style="background:var(--color-accent-2-100);border-radius:26px;padding:18px 20px">
+          <div style="font-family:var(--font-heading);font-size:19px;margin-bottom:6px">Combinado da semana</div>
+          <p style="font-size:13.5px;margin:0;color:var(--color-accent-2-900);line-height:1.5">Quem cozinha não lava a louça. Domingo à noite, cinco minutos pra planejar a semana juntos.</p>
+        </div>
+
+        <div style="background:var(--color-surface);border-radius:26px;padding:22px 20px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:16px">A marca</div>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+            <svg width="76" height="76" viewBox="0 0 32 32" style="flex:none;border-radius:23px"><rect width="32" height="32" rx="10" fill="#c67139"></rect><path d="M8.5 24.5v-8.2a7.5 7.5 0 0 1 15 0v8.2a1.5 1.5 0 0 1-1.5 1.5h-3.6v-5.6a2.4 2.4 0 0 0-4.8 0V26h-3.6a1.5 1.5 0 0 1-1.5-1.5z" fill="#fff8ef"></path></svg>
+            <div>
+              <div style="font-family:var(--font-heading);font-size:30px;line-height:.95">Tiny<br />Home</div>
+              <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:7px;letter-spacing:.08em;text-transform:uppercase">Casa pequena, cabeça leve</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center">
+            <svg width="44" height="44" viewBox="0 0 32 32" style="flex:none;border-radius:14px"><rect width="32" height="32" rx="10" fill="#7a8a5e"></rect><path d="M8.5 24.5v-8.2a7.5 7.5 0 0 1 15 0v8.2a1.5 1.5 0 0 1-1.5 1.5h-3.6v-5.6a2.4 2.4 0 0 0-4.8 0V26h-3.6a1.5 1.5 0 0 1-1.5-1.5z" fill="#fbfdf5"></path></svg>
+            <svg width="44" height="44" viewBox="0 0 32 32" style="flex:none;border-radius:14px"><rect width="32" height="32" rx="10" fill="#201e1d"></rect><path d="M8.5 24.5v-8.2a7.5 7.5 0 0 1 15 0v8.2a1.5 1.5 0 0 1-1.5 1.5h-3.6v-5.6a2.4 2.4 0 0 0-4.8 0V26h-3.6a1.5 1.5 0 0 1-1.5-1.5z" fill="#f5ead8"></path></svg>
+            <svg width="44" height="44" viewBox="0 0 32 32" style="flex:none;border-radius:14px"><rect width="32" height="32" rx="10" fill="#f5ead8"></rect><path d="M8.5 24.5v-8.2a7.5 7.5 0 0 1 15 0v8.2a1.5 1.5 0 0 1-1.5 1.5h-3.6v-5.6a2.4 2.4 0 0 0-4.8 0V26h-3.6a1.5 1.5 0 0 1-1.5-1.5z" fill="#c67139"></path></svg>
+            <div style="font-size:11.5px;color:var(--color-neutral-700);line-height:1.4">Arco de porta em terracota, sálvia ou creme — sempre em tile arredondado.</div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ showFab }}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{ openAdd }}" style="{{ fabStyle }}">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff8ef" stroke-width="3" stroke-linecap="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+    </button>
+  </sc-if>
+
+  <sc-if value="{{ navAbas }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:none;display:flex;align-items:stretch;padding:10px 12px 30px;background:var(--color-surface);border-top:1px solid var(--color-divider);z-index:35">
+      <button onClick="{{ goHoje }}" style="{{ tabs.hoje }}">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span style="font-size:10.5px;font-weight:600">Hoje</span>
+      </button>
+      <button onClick="{{ goQuadro }}" style="{{ tabs.quadro }}">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="4"></rect><path d="M9 3v18"></path><path d="M15 3v18"></path></svg>
+        <span style="font-size:10.5px;font-weight:600">Quadro</span>
+      </button>
+      <button onClick="{{ goCompras }}" style="{{ tabs.compras }}">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+        <span style="font-size:10.5px;font-weight:600">Compras</span>
+      </button>
+      <button onClick="{{ goPerfil }}" style="{{ tabs.perfil }}">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span style="font-size:10.5px;font-weight:600">Casa</span>
+      </button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ navPilula }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:26px;display:flex;justify-content:center;z-index:35;pointer-events:none">
+      <div style="display:flex;align-items:center;gap:4px;padding:7px;border-radius:999px;background:rgba(32,30,29,.94);box-shadow:var(--shadow-lg);pointer-events:auto">
+        <button onClick="{{ goHoje }}" style="{{ pills.hoje }}">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span style="{{ pillText.hoje }}">Hoje</span>
+        </button>
+        <button onClick="{{ goQuadro }}" style="{{ pills.quadro }}">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="4"></rect><path d="M9 3v18"></path><path d="M15 3v18"></path></svg>
+          <span style="{{ pillText.quadro }}">Quadro</span>
+        </button>
+        <button onClick="{{ goCompras }}" style="{{ pills.compras }}">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+          <span style="{{ pillText.compras }}">Compras</span>
+        </button>
+        <button onClick="{{ goPerfil }}" style="{{ pills.perfil }}">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span style="{{ pillText.perfil }}">Casa</span>
+        </button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toastOn }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:52px;left:14px;right:14px;z-index:80;animation:dropIn .22s cubic-bezier(.2,.8,.3,1)">
+      <div style="display:flex;gap:11px;align-items:flex-start;background:rgba(250,244,235,.97);border:1px solid var(--color-neutral-300);border-radius:20px;padding:12px 14px;box-shadow:var(--shadow-lg)">
+        <svg width="30" height="30" viewBox="0 0 32 32" style="flex:none;border-radius:9px"><rect width="32" height="32" rx="10" fill="#c67139"></rect><path d="M8.5 24.5v-8.2a7.5 7.5 0 0 1 15 0v8.2a1.5 1.5 0 0 1-1.5 1.5h-3.6v-5.6a2.4 2.4 0 0 0-4.8 0V26h-3.6a1.5 1.5 0 0 1-1.5-1.5z" fill="#fff8ef"></path></svg>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;justify-content:space-between;gap:8px"><div style="font-size:12.5px;font-weight:700">Tiny Home</div><div style="font-size:11px;color:var(--color-neutral-600)">agora</div></div>
+          <div style="font-size:12.5px;margin-top:2px;line-height:1.35">{{ toastText }}</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(46,43,37,.45);z-index:60;animation:fadeIn .18s ease"></div>
+  </sc-if>
+
+  <sc-if value="{{ taskSheet }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:70;background:var(--color-bg);border-radius:34px 34px 0 0;padding:14px 22px 40px;animation:sheetUp .26s cubic-bezier(.2,.8,.3,1);box-shadow:var(--shadow-lg)">
+      <div style="width:44px;height:5px;border-radius:999px;background:var(--color-neutral-400);margin:0 auto 18px"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="tag tag-neutral">{{ sheetFreq }}</span>
+        <span class="tag tag-accent-2">{{ sheetRoom }}</span>
+      </div>
+      <h2 style="font-family:var(--font-heading);font-size:27px;line-height:1.1;margin:0 0 6px">{{ sheetTitle }}</h2>
+      <div style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--color-neutral-700);margin-bottom:20px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"></path><path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path><path d="M21 22v-6h-6"></path><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path></svg>
+        {{ sheetRepeat }}
+      </div>
+      <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:9px">Como está</div>
+      <div style="display:flex;gap:8px;margin-bottom:20px">
+        <button onClick="{{ setTodo }}" style="{{ stTodo }}">A fazer</button>
+        <button onClick="{{ setDoing }}" style="{{ stDoing }}">Fazendo</button>
+        <button onClick="{{ setDone }}" style="{{ stDone }}">Feito</button>
+      </div>
+      <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:9px">De quem é</div>
+      <div style="display:flex;gap:9px;margin-bottom:18px">
+        <button onClick="{{ assignRafa }}" style="{{ aRafa }}">
+          <span style="width:24px;height:24px;border-radius:999px;background:var(--color-accent);color:#fff8ef;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">E</span>
+          Evelyn
+        </button>
+        <button onClick="{{ assignJu }}" style="{{ aJu }}">
+          <span style="width:24px;height:24px;border-radius:999px;background:var(--color-accent-2);color:#fbfdf5;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">L</span>
+          Leo
+        </button>
+        <button onClick="{{ assignNos }}" style="{{ aNos }}">Os dois</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--color-surface);border-radius:20px;padding:13px 16px;margin-bottom:20px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#82796a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600">Me lembrar</div>
+          <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:1px">{{ sheetRemindSub }}</div>
+        </div>
+        <button onClick="{{ toggleRemind }}" style="{{ remindTrack }}"><span style="{{ remindKnob }}"></span></button>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button onClick="{{ sheetToggle }}" class="btn btn-primary" style="flex:1;padding:14px;font-size:15px">{{ sheetCta }}</button>
+        <button onClick="{{ closeSheet }}" class="btn btn-secondary" style="padding:14px 20px;font-size:15px">Fechar</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ addSheet }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:70;background:var(--color-bg);border-radius:34px 34px 0 0;padding:14px 22px 40px;animation:sheetUp .26s cubic-bezier(.2,.8,.3,1);box-shadow:var(--shadow-lg)">
+      <div style="width:44px;height:5px;border-radius:999px;background:var(--color-neutral-400);margin:0 auto 18px"></div>
+      <h2 style="font-family:var(--font-heading);font-size:25px;line-height:1.1;margin:0 0 16px">Nova tarefa</h2>
+      <input value="{{ newTitle }}" onChange="{{ onNewTitle }}" placeholder="O que precisa ser feito?" class="input" style="font-size:15px;min-height:46px;margin-bottom:16px" />
+      <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:9px">Com que frequência</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+        <button onClick="{{ freqDiaria }}" style="{{ nDiaria }}">Todo dia</button>
+        <button onClick="{{ freqSemanal }}" style="{{ nSemanal }}">Toda semana</button>
+        <button onClick="{{ freqMensal }}" style="{{ nMensal }}">Todo mês</button>
+        <button onClick="{{ freqPontual }}" style="{{ nPontual }}">Uma vez</button>
+      </div>
+      <sc-if value="{{ showMonthPicker }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-bottom:16px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:9px">Em que dia do mês</div>
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ monthChoices }}" as="m" hint-placeholder-count="6">
+              <button onClick="{{ m.pick }}" style="{{ m.style }}">{{ m.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showDayPicker }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-bottom:16px">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:9px">Em que dia</div>
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ dayChoices }}" as="d" hint-placeholder-count="7">
+              <button onClick="{{ d.pick }}" style="{{ d.style }}">{{ d.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:9px">De quem é</div>
+      <div style="display:flex;gap:9px;margin-bottom:20px">
+        <button onClick="{{ newRafa }}" style="{{ nRafa }}">
+          <span style="width:24px;height:24px;border-radius:999px;background:var(--color-accent);color:#fff8ef;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">E</span>
+          Evelyn
+        </button>
+        <button onClick="{{ newJu }}" style="{{ nJu }}">
+          <span style="width:24px;height:24px;border-radius:999px;background:var(--color-accent-2);color:#fbfdf5;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">L</span>
+          Leo
+        </button>
+        <button onClick="{{ newNos }}" style="{{ nNos }}">Os dois</button>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button onClick="{{ createTask }}" class="btn btn-primary" style="flex:1;padding:14px;font-size:15px">Adicionar ao quadro</button>
+        <button onClick="{{ closeSheet }}" class="btn btn-secondary" style="padding:14px 20px;font-size:15px">Cancelar</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ listSheet }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:70;background:var(--color-bg);border-radius:34px 34px 0 0;padding:14px 22px 40px;animation:sheetUp .26s cubic-bezier(.2,.8,.3,1);box-shadow:var(--shadow-lg)">
+      <div style="width:44px;height:5px;border-radius:999px;background:var(--color-neutral-400);margin:0 auto 18px"></div>
+      <h2 style="font-family:var(--font-heading);font-size:25px;line-height:1.1;margin:0 0 16px">Nova lista</h2>
+      <input value="{{ newListName }}" onChange="{{ onNewListName }}" placeholder="Ex: Ferragem, Pet, Presentes…" class="input" style="font-size:15px;min-height:46px;margin-bottom:16px" />
+      <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-700);margin-bottom:9px">Cor</div>
+      <div style="display:flex;gap:10px;margin-bottom:16px">
+        <sc-for list="{{ toneChoices }}" as="c" hint-placeholder-count="3">
+          <button onClick="{{ c.pick }}" style="{{ c.style }}"></button>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--color-surface);border-radius:20px;padding:13px 16px;margin-bottom:20px">
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600">Separar por seções</div>
+          <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:1px">Hortifruti, limpeza, padaria…</div>
+        </div>
+        <button onClick="{{ toggleNewSections }}" style="{{ secTrack }}"><span style="{{ secKnob }}"></span></button>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button onClick="{{ createList }}" class="btn btn-primary" style="flex:1;padding:14px;font-size:15px">Criar lista</button>
+        <button onClick="{{ closeSheet }}" class="btn btn-secondary" style="padding:14px 20px;font-size:15px">Cancelar</button>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:600,&quot;height&quot;:1000},&quot;startTab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;hoje&quot;,&quot;quadro&quot;,&quot;compras&quot;,&quot;perfil&quot;],&quot;default&quot;:&quot;hoje&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Protótipo&quot;},&quot;boardLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;colunas&quot;,&quot;lista&quot;],&quot;default&quot;:&quot;colunas&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Quadro&quot;},&quot;boardGroupBy&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;frequência&quot;,&quot;status&quot;,&quot;dia&quot;,&quot;pessoa&quot;],&quot;default&quot;:&quot;frequência&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Quadro&quot;},&quot;hideDone&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Quadro&quot;},&quot;navStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;abas&quot;,&quot;pilula&quot;],&quot;default&quot;:&quot;abas&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Navegação&quot;}}">
+const PEOPLE = {
+  rafa: { name: 'Evelyn', initial: 'E', bg: '#c67139', fg: '#fff8ef' },
+  ju: { name: 'Leo', initial: 'L', bg: '#7a8a5e', fg: '#fbfdf5' },
+  nos: { name: 'Os dois', initial: '2', bg: '#a19786', fg: '#f9f4ed' }
+};
+const FREQ = { diaria: 'Todo dia', semanal: 'Toda semana', mensal: 'Todo mês', pontual: 'Uma vez' };
+const DAYS = { seg: 'Segunda', ter: 'Terça', qua: 'Quarta', qui: 'Quinta', sex: 'Sexta', sab: 'Sábado', dom: 'Domingo' };
+const DAY_KEYS = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+const STATUS = { todo: 'A fazer', doing: 'Fazendo', done: 'Feito' };
+const TODAY = 'sex';
+const TONE_BG = { accent: '#ffe1d0', accent2: '#e1eecc', neutral: '#eee7db' };
+const TONE_INK = { accent: '#c67139', accent2: '#7a8a5e', neutral: '#a19786' };
+
+class Component extends DCLogic {
+  state = {
+    tab: null, openList: null, sheet: null, sheetId: null,
+    filter: 'todos', homeFilter: 'todos', groupBy: null, layout: null, nav: null, hideDone: null,
+    shopMode: false, draft: '', toast: null,
+    newTitle: '', newFreq: 'semanal', newOwner: 'rafa', newDay: 'sab', newMonthDay: 5,
+    newListName: '', newListTone: 'accent', newListSections: false,
+    notifs: { manha: true, atraso: true, mercado: false },
+    tasks: [
+      { id: 1, title: 'Louça do jantar', freq: 'diaria', owner: 'rafa', room: 'Cozinha', day: null, status: 'todo', remind: true },
+      { id: 2, title: 'Arrumar a cama', freq: 'diaria', owner: 'ju', room: 'Quarto', day: null, status: 'done', remind: false },
+      { id: 3, title: 'Comida e água do Nino', freq: 'diaria', owner: 'nos', room: 'Área', day: null, status: 'done', remind: true },
+      { id: 4, title: 'Tirar o lixo', freq: 'diaria', owner: 'ju', room: 'Cozinha', day: null, status: 'todo', remind: true },
+      { id: 5, title: 'Aspirar a sala', freq: 'semanal', owner: 'ju', room: 'Sala', day: 'ter', status: 'done', remind: false },
+      { id: 6, title: 'Lavar roupa branca', freq: 'semanal', owner: 'rafa', room: 'Lavanderia', day: 'sex', status: 'doing', remind: true },
+      { id: 7, title: 'Trocar os lençóis', freq: 'semanal', owner: 'ju', room: 'Quarto', day: 'dom', status: 'todo', remind: false },
+      { id: 8, title: 'Limpar o banheiro', freq: 'semanal', owner: 'rafa', room: 'Banheiro', day: 'sab', status: 'todo', remind: true },
+      { id: 9, title: 'Regar as plantas', freq: 'semanal', owner: 'ju', room: 'Varanda', day: 'qui', status: 'todo', remind: true, late: 1 },
+      { id: 10, title: 'Passar pano na cozinha', freq: 'semanal', owner: 'rafa', room: 'Cozinha', day: 'qua', status: 'todo', remind: true, late: 2 },
+      { id: 15, title: 'Limpar a geladeira por dentro', freq: 'mensal', owner: 'ju', room: 'Cozinha', day: null, monthDay: 5, status: 'todo', remind: true },
+      { id: 16, title: 'Trocar o filtro do purificador', freq: 'mensal', owner: 'rafa', room: 'Cozinha', day: null, monthDay: 15, status: 'todo', remind: true, late: 1 },
+      { id: 17, title: 'Lavar as roupas de cama pesadas', freq: 'mensal', owner: 'nos', room: 'Lavanderia', day: null, monthDay: 20, status: 'todo', remind: false },
+      { id: 18, title: 'Conferir as contas do mês', freq: 'mensal', owner: 'rafa', room: 'Escritório', day: null, monthDay: 1, status: 'done', remind: true },
+      { id: 11, title: 'Trocar a lâmpada do corredor', freq: 'pontual', owner: 'rafa', room: 'Corredor', day: null, status: 'todo', remind: false },
+      { id: 12, title: 'Consertar a torneira', freq: 'pontual', owner: 'rafa', room: 'Banheiro', day: null, status: 'doing', remind: false },
+      { id: 13, title: 'Devolver a caixa do sofá', freq: 'pontual', owner: 'ju', room: 'Sala', day: null, status: 'todo', remind: false },
+      { id: 14, title: 'Marcar o dentista', freq: 'pontual', owner: 'ju', room: 'Pessoal', day: null, status: 'done', remind: false }
+    ],
+    lists: [
+      { id: 'mercado', name: 'Mercado', tone: 'accent2', sections: true, items: [
+        { id: 'm1', name: 'Tomate', sec: 'Hortifruti', done: false },
+        { id: 'm2', name: 'Alface', sec: 'Hortifruti', done: false },
+        { id: 'm3', name: 'Banana', sec: 'Hortifruti', done: true },
+        { id: 'm4', name: 'Pão de forma', sec: 'Padaria', done: false },
+        { id: 'm5', name: 'Café', sec: 'Mercearia', done: false },
+        { id: 'm6', name: 'Arroz', sec: 'Mercearia', done: true },
+        { id: 'm7', name: 'Detergente', sec: 'Limpeza', done: false },
+        { id: 'm8', name: 'Papel higiênico', sec: 'Limpeza', done: false }
+      ] },
+      { id: 'ferragem', name: 'Ferragem', tone: 'accent', sections: false, items: [
+        { id: 'f1', name: 'Parafuso 4mm', sec: 'Itens', done: false },
+        { id: 'f2', name: 'Fita isolante', sec: 'Itens', done: false },
+        { id: 'f3', name: 'Lâmpada LED 9W', sec: 'Itens', done: false },
+        { id: 'f4', name: 'Veda-rosca', sec: 'Itens', done: false }
+      ] },
+      { id: 'roupas', name: 'Roupas', tone: 'neutral', sections: false, items: [
+        { id: 'r1', name: 'Meias pretas', sec: 'Itens', done: false },
+        { id: 'r2', name: 'Camiseta branca', sec: 'Itens', done: true }
+      ] },
+      { id: 'farmacia', name: 'Farmácia', tone: 'accent2', sections: false, items: [
+        { id: 'p1', name: 'Dipirona', sec: 'Itens', done: false },
+        { id: 'p2', name: 'Protetor solar', sec: 'Itens', done: false },
+        { id: 'p3', name: 'Escova de dente', sec: 'Itens', done: false }
+      ] }
+    ]
+  };
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem('tinyhome.v1');
+      if (raw) {
+        const d = JSON.parse(raw);
+        this.setState({ tasks: d.tasks || this.state.tasks, lists: d.lists || this.state.lists, notifs: d.notifs || this.state.notifs, nav: d.nav || null, layout: d.layout || null, groupBy: d.groupBy || null });
+      }
+    } catch (e) {}
+  }
+  componentDidUpdate() {
+    try {
+      const s = this.state;
+      localStorage.setItem('tinyhome.v1', JSON.stringify({ tasks: s.tasks, lists: s.lists, notifs: s.notifs, nav: s.nav, layout: s.layout, groupBy: s.groupBy }));
+    } catch (e) {}
+  }
+  componentWillUnmount() { clearTimeout(this._toastT); }
+  toast(text) {
+    clearTimeout(this._toastT);
+    this.setState({ toast: text });
+    this._toastT = setTimeout(() => this.setState({ toast: null }), 2600);
+  }
+
+  setStatus(id, status) {
+    this.setState(s => ({ tasks: s.tasks.map(t => t.id === id ? { ...t, status, late: status === 'done' ? 0 : t.late } : t) }));
+  }
+  toggleTask(id) {
+    const t = this.state.tasks.find(x => x.id === id);
+    this.setStatus(id, t.status === 'done' ? 'todo' : 'done');
+  }
+  createTask() {
+    const title = this.state.newTitle.trim();
+    if (!title) return;
+    this.setState(s => ({
+      tasks: s.tasks.concat({
+        id: Date.now(), title, freq: s.newFreq, owner: s.newOwner, room: 'Casa',
+        day: s.newFreq === 'semanal' ? s.newDay : null,
+        monthDay: s.newFreq === 'mensal' ? s.newMonthDay : null, status: 'todo', remind: true
+      }),
+      sheet: null, newTitle: '', tab: 'quadro', openList: null
+    }));
+    this.toast('Tarefa criada. ' + (this.state.newFreq === 'diaria' ? 'Volta sozinha todo dia.' : this.state.newFreq === 'semanal' ? 'Volta sozinha toda ' + DAYS[this.state.newDay].toLowerCase() + '.' : this.state.newFreq === 'mensal' ? 'Volta sozinha todo dia ' + this.state.newMonthDay + '.' : 'Sem repetição.'));
+  }
+  toggleItem(listId, itemId) {
+    this.setState(s => ({ lists: s.lists.map(l => l.id !== listId ? l : { ...l, items: l.items.map(i => i.id === itemId ? { ...i, done: !i.done } : i) }) }));
+  }
+  addItem(name, listId) {
+    const n = (name || '').trim();
+    if (!n) return;
+    const target = listId || this.state.openList;
+    const list = this.state.lists.find(l => l.id === target);
+    this.setState(s => ({
+      lists: s.lists.map(l => l.id !== target ? l : { ...l, items: l.items.concat({ id: 'x' + Date.now() + Math.random(), name: n, sec: l.sections ? 'Adicionados' : 'Itens', done: false }) }),
+      draft: listId ? s.draft : ''
+    }));
+    if (listId) this.toast(n + ' foi para a lista do ' + list.name + '.');
+  }
+  createList() {
+    const name = this.state.newListName.trim();
+    if (!name) return;
+    const id = 'l' + Date.now();
+    this.setState(s => ({
+      lists: s.lists.concat({ id, name, tone: s.newListTone, sections: s.newListSections, items: [] }),
+      sheet: null, newListName: '', openList: id, tab: 'compras'
+    }));
+  }
+
+  circle(done) {
+    return { width: 27, height: 27, flex: 'none', borderRadius: 999, cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', border: done ? '2px solid #7a8a5e' : '2px solid #c0b6a5', background: done ? '#7a8a5e' : 'transparent', transition: 'background .18s ease, border-color .18s ease' };
+  }
+  avatar(owner, size) {
+    const p = PEOPLE[owner], d = size || 28;
+    return { width: d, height: d, flex: 'none', borderRadius: 999, background: p.bg, color: p.fg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: d * 0.42, fontWeight: 700 };
+  }
+  pill(active, tone) {
+    const ink = tone || '#c67139';
+    return { padding: '7px 15px', borderRadius: 999, fontFamily: 'var(--font-body)', fontSize: 13, whiteSpace: 'nowrap', cursor: 'pointer', border: active ? '1px solid ' + ink : '1px solid rgba(32,30,29,.16)', background: active ? ink : 'transparent', color: active ? '#fff8ef' : '#201e1d', transition: 'all .16s ease' };
+  }
+  choice(active) {
+    return { flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, padding: '11px 10px', borderRadius: 999, fontFamily: 'var(--font-body)', fontSize: 14, cursor: 'pointer', border: active ? '2px solid #c67139' : '2px solid rgba(32,30,29,.12)', background: active ? '#ffe1d0' : 'transparent', color: '#201e1d', transition: 'all .16s ease' };
+  }
+  toggleSwitch(on, fn) {
+    return {
+      track: { width: 46, height: 27, flex: 'none', borderRadius: 999, border: 0, padding: 3, cursor: 'pointer', display: 'flex', justifyContent: on ? 'flex-end' : 'flex-start', background: on ? '#7a8a5e' : '#c0b6a5', transition: 'background .18s ease' },
+      knob: { width: 21, height: 21, borderRadius: 999, background: '#fff8ef', display: 'block', boxShadow: '0 1px 3px rgba(0,0,0,.2)' },
+      toggle: fn
+    };
+  }
+  decorate(t) {
+    const p = PEOPLE[t.owner];
+    const done = t.status === 'done';
+    const when = t.freq === 'diaria' ? 'Todo dia' : t.freq === 'semanal' ? DAYS[t.day] : t.freq === 'mensal' ? 'Dia ' + t.monthDay : 'Sem prazo';
+    const lateTxt = t.freq === 'mensal' ? (t.late === 1 ? 'Era pra este mês' : 'Há ' + t.late + ' meses') : t.late === 1 ? 'Era pra ontem' : 'Há ' + t.late + ' semanas';
+    return {
+      ...t, initial: p.initial, when,
+      meta: (t.late ? lateTxt + ' · ' : '') + when + ' · ' + t.room,
+      rowMeta: (t.late ? lateTxt + ' · ' : '') + when + ' · ' + t.room + (t.status === 'doing' ? ' · fazendo' : ''),
+      lateLabel: lateTxt + ' · ' + t.room,
+      circle: this.circle(done),
+      tick: { opacity: done ? 1 : 0, transition: 'opacity .18s ease' },
+      titleStyle: { fontSize: 15, fontWeight: 600, lineHeight: 1.3, color: done ? '#a19786' : '#201e1d', textDecoration: done ? 'line-through' : 'none', transition: 'color .18s ease' },
+      whenStyle: { fontSize: 11.5, color: t.late ? '#b2622d' : '#82796a', fontWeight: t.late ? 700 : 400, flex: 1 },
+      card: { background: 'var(--color-surface)', borderRadius: 24, padding: '14px 15px', display: 'flex', flexDirection: 'column', gap: 10, cursor: 'pointer', boxShadow: 'var(--shadow-sm)', borderLeft: t.status === 'doing' ? '4px solid #c67139' : '4px solid transparent', opacity: done ? 0.7 : 1 },
+      row: { display: 'flex', alignItems: 'center', gap: 13, padding: '13px 15px', background: 'var(--color-surface)', borderRadius: 22, cursor: 'pointer', borderLeft: t.status === 'doing' ? '4px solid #c67139' : '4px solid transparent', opacity: done ? 0.7 : 1 },
+      avatar: this.avatar(t.owner, 28),
+      avatarSm: this.avatar(t.owner, 24),
+      toggle: (e) => { if (e) e.stopPropagation(); this.toggleTask(t.id); },
+      open: () => this.setState({ sheet: 'task', sheetId: t.id })
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const tab = s.tab || (this.props.startTab ?? 'hoje');
+    const layout = s.layout || (this.props.boardLayout ?? 'colunas');
+    const nav = s.nav || (this.props.navStyle ?? 'abas');
+    const groupBy = s.groupBy || (this.props.boardGroupBy ?? 'frequência');
+    const hideDone = s.hideDone === null ? (this.props.hideDone ?? false) : s.hideDone;
+    const listOpen = !!s.openList;
+    const list = s.lists.find(l => l.id === s.openList);
+    const navPad = nav === 'abas' ? 120 : 130;
+
+    const tabStyle = (k) => ({ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, background: 'transparent', border: 0, padding: '6px 0', cursor: 'pointer', fontFamily: 'var(--font-body)', color: tab === k ? '#c67139' : '#82796a', transition: 'color .16s ease' });
+    const pillStyle = (k) => ({ display: 'flex', alignItems: 'center', gap: 6, padding: tab === k ? '10px 16px' : '10px 13px', borderRadius: 999, border: 0, cursor: 'pointer', fontFamily: 'var(--font-body)', background: tab === k ? '#c67139' : 'transparent', color: tab === k ? '#fff8ef' : '#c0b6a5', transition: 'all .18s ease' });
+    const pillTextStyle = (k) => ({ fontSize: 13, fontWeight: 600, display: tab === k ? 'inline' : 'none' });
+
+    const visible = s.tasks
+      .filter(t => s.filter === 'todos' || t.owner === s.filter || t.owner === 'nos')
+      .filter(t => !hideDone || t.status !== 'done');
+
+    let colDefs;
+    if (groupBy === 'pessoa') colDefs = [{ key: 'rafa', label: 'Rafa', tone: '#c67139', by: 'owner' }, { key: 'ju', label: 'Ju', tone: '#7a8a5e', by: 'owner' }, { key: 'nos', label: 'Os dois', tone: '#a19786', by: 'owner' }];
+    else if (groupBy === 'status') colDefs = [{ key: 'todo', label: 'A fazer', tone: '#a19786', by: 'status' }, { key: 'doing', label: 'Fazendo', tone: '#c67139', by: 'status' }, { key: 'done', label: 'Feito', tone: '#7a8a5e', by: 'status' }];
+    else if (groupBy === 'dia') colDefs = [{ key: 'todos', label: 'Todo dia', tone: '#c67139', by: 'dayKey' }]
+      .concat(DAY_KEYS.map(d => ({ key: d, label: DAYS[d], tone: d === TODAY ? '#c67139' : '#a19786', by: 'dayKey' })))
+      .concat([{ key: 'semdia', label: 'Sem dia fixo', tone: '#a19786', by: 'dayKey' }]);
+    else colDefs = [{ key: 'diaria', label: 'Diárias', tone: '#c67139', by: 'freq' }, { key: 'semanal', label: 'Semanais', tone: '#7a8a5e', by: 'freq' }, { key: 'mensal', label: 'Mensais', tone: '#8f4d21', by: 'freq' }, { key: 'pontual', label: 'Pontuais', tone: '#a19786', by: 'freq' }];
+
+    const scoped = visible.map(t => ({ ...t, dayKey: t.freq === 'diaria' ? 'todos' : t.freq === 'semanal' ? t.day : 'semdia' }));
+    let columns = colDefs.map(c => {
+      const ts = scoped.filter(t => (t[c.by] ?? null) === c.key);
+      return {
+        label: c.label,
+        count: ts.filter(t => t.status !== 'done').length === 1 ? '1 aberta' : ts.filter(t => t.status !== 'done').length + ' abertas',
+        dot: { width: 10, height: 10, borderRadius: 999, background: c.tone, flex: 'none' },
+        tasks: ts.map(t => this.decorate(t)),
+        empty: ts.length === 0,
+        add: () => this.setState({ sheet: 'add', newFreq: c.by === 'freq' ? c.key : s.newFreq, newOwner: c.by === 'owner' && c.key !== 'nos' ? c.key : s.newOwner, newDay: c.by === 'day' && c.key ? c.key : s.newDay })
+      };
+    });
+    if (groupBy === 'dia') columns = columns.filter(c => !c.empty);
+
+    const groupChips = ['frequência', 'status', 'dia', 'pessoa'].map(g => ({
+      label: g === 'frequência' ? 'Frequência' : g === 'status' ? 'Status' : g === 'dia' ? 'Dia da semana' : 'Pessoa',
+      style: this.pill(groupBy === g), pick: () => this.setState({ groupBy: g })
+    }));
+    const peopleChips = [
+      { key: 'todos', label: 'Todos', tone: '#201e1d' },
+      { key: 'rafa', label: PEOPLE.rafa.name, tone: '#c67139' },
+      { key: 'ju', label: PEOPLE.ju.name, tone: '#7a8a5e' }
+    ].map(p => ({ label: p.label, style: this.pill(s.filter === p.key, p.tone), pick: () => this.setState({ filter: p.key }) }));
+
+    const homeChips = [
+      { key: 'todos', label: 'Nós dois', tone: '#201e1d' },
+      { key: 'rafa', label: PEOPLE.rafa.name, tone: '#c67139' },
+      { key: 'ju', label: PEOPLE.ju.name, tone: '#7a8a5e' }
+    ].map(p => ({ label: p.label, style: this.pill(s.homeFilter === p.key, p.tone), pick: () => this.setState({ homeFilter: p.key }) }));
+    const mine = (t) => s.homeFilter === 'todos' || t.owner === s.homeFilter || t.owner === 'nos';
+
+    const todayTasks = s.tasks.filter(t => !t.late && (t.freq === 'diaria' || t.day === TODAY)).filter(mine).map(t => this.decorate(t));
+    const lateTasks = s.tasks.filter(t => t.late && t.status !== 'done').filter(mine).map(t => this.decorate(t));
+    const doneToday = todayTasks.filter(t => t.status === 'done').length;
+    const pct = todayTasks.length ? Math.round(doneToday / todayTasks.length * 100) : 0;
+    const restantes = todayTasks.length - doneToday;
+
+    const mercado = s.lists.find(l => l.id === 'mercado');
+    const mercadoOpen = mercado ? mercado.items.filter(i => !i.done).length : 0;
+
+    const lists = s.lists.map(l => {
+      const open = l.items.filter(i => !i.done).length;
+      const p = l.items.length ? Math.round((l.items.length - open) / l.items.length * 100) : 0;
+      return {
+        name: l.name,
+        sub: l.items.length === 0 ? 'Lista vazia' : open === 0 ? 'Tudo comprado' : open + (open === 1 ? ' item aberto' : ' itens abertos'),
+        pct: p + '%',
+        card: { position: 'relative', overflow: 'hidden', background: TONE_BG[l.tone], borderRadius: 28, padding: '18px 16px 16px', cursor: 'pointer', minHeight: 132 },
+        blob: { position: 'absolute', right: -26, top: -26, width: 84, height: 84, borderRadius: 999, background: TONE_INK[l.tone], opacity: 0.18 },
+        bar: { height: 6, flex: 1, borderRadius: 999, background: 'linear-gradient(to right,' + TONE_INK[l.tone] + ' ' + p + '%, rgba(32,30,29,.12) ' + p + '%)' },
+        open: () => this.setState({ openList: l.id, tab: 'compras', shopMode: false })
+      };
+    });
+
+    let sections = [];
+    if (list) {
+      const items = s.shopMode ? list.items.filter(i => !i.done) : list.items;
+      const names = [];
+      items.forEach(i => { if (names.indexOf(i.sec) < 0) names.push(i.sec); });
+      sections = names.map(n => ({
+        name: n, showName: !!list.sections,
+        items: items.filter(i => i.sec === n).map(i => ({
+          name: i.name,
+          row: { display: 'flex', alignItems: 'center', gap: 13, padding: s.shopMode ? '17px 16px' : '13px 16px', background: i.done ? 'transparent' : 'var(--color-surface)', border: i.done ? '1px solid rgba(32,30,29,.10)' : '1px solid transparent', borderRadius: 22, cursor: 'pointer', transition: 'background .18s ease' },
+          box: { width: 24, height: 24, flex: 'none', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', border: i.done ? '2px solid #7a8a5e' : '2px solid #c0b6a5', background: i.done ? '#7a8a5e' : 'transparent', transition: 'all .18s ease' },
+          tick: { opacity: i.done ? 1 : 0, transition: 'opacity .18s ease' },
+          label: { flex: 1, fontSize: s.shopMode ? 17 : 15, fontWeight: 600, color: i.done ? '#a19786' : '#201e1d', textDecoration: i.done ? 'line-through' : 'none' },
+          toggle: () => this.toggleItem(list.id, i.id)
+        }))
+      }));
+    }
+
+    const sheetTask = s.sheet === 'task' ? s.tasks.find(t => t.id === s.sheetId) : null;
+    const weekDone = s.tasks.filter(t => t.status === 'done');
+
+    const frequentes = ['Leite', 'Ovos', 'Café', 'Papel toalha', 'Sabão em pó', 'Cebola'].map(n => {
+      const inList = mercado && mercado.items.some(i => i.name === n && !i.done);
+      return {
+        name: n, add: () => this.addItem(n, 'mercado'),
+        style: { display: 'inline-flex', alignItems: 'center', gap: 5, padding: '6px 12px', borderRadius: 999, border: inList ? '1px solid #7a8a5e' : '1px solid rgba(32,30,29,.16)', background: inList ? '#e1eecc' : 'var(--color-bg)', fontFamily: 'var(--font-body)', fontSize: 12.5, color: inList ? '#3d472b' : '#201e1d', cursor: 'pointer', transition: 'all .16s ease' }
+      };
+    });
+
+    const notifDefs = [
+      { key: 'manha', title: 'Resumo do dia', sub: 'Todo dia às 8:00, o que é de cada um' },
+      { key: 'atraso', title: 'Cutucão de atraso', sub: 'Quando algo semanal passa 2 dias' },
+      { key: 'mercado', title: 'Item novo na lista', sub: 'Quando um de vocês adiciona algo' }
+    ];
+    const notifs = notifDefs.map(n => {
+      const sw = this.toggleSwitch(s.notifs[n.key], () => this.setState(st => ({ notifs: { ...st.notifs, [n.key]: !st.notifs[n.key] } })));
+      return { title: n.title, sub: n.sub, track: sw.track, knob: sw.knob, toggle: sw.toggle };
+    });
+
+    const remindSw = this.toggleSwitch(!!(sheetTask && sheetTask.remind), () => {
+      const id = s.sheetId;
+      this.setState(st => ({ tasks: st.tasks.map(t => t.id === id ? { ...t, remind: !t.remind } : t) }));
+    });
+    const secSw = this.toggleSwitch(s.newListSections, () => this.setState({ newListSections: !s.newListSections }));
+
+    const optStyle = (active) => ({ flex: 1, padding: '11px 10px', borderRadius: 999, fontFamily: 'var(--font-body)', fontSize: 13.5, cursor: 'pointer', border: active ? '2px solid #c67139' : '2px solid rgba(32,30,29,.12)', background: active ? '#ffe1d0' : 'transparent', color: '#201e1d', transition: 'all .16s ease' });
+
+    return {
+      padScreen: { padding: 'calc(env(safe-area-inset-top) + 22px) 20px ' + navPad + 'px', display: 'flex', flexDirection: 'column', gap: 22 },
+      padBoard: { padding: 'calc(env(safe-area-inset-top) + 22px) 0 ' + navPad + 'px' },
+      padList: { padding: '18px 20px ' + (navPad + 20) + 'px', display: 'flex', flexDirection: 'column', gap: 20 },
+      addBarWrap: { position: 'absolute', left: 0, right: 0, bottom: nav === 'abas' ? 96 : 92, padding: '0 16px', zIndex: 30 },
+      fabStyle: { position: 'absolute', right: 18, bottom: nav === 'abas' ? 108 : 100, width: 58, height: 58, borderRadius: 999, border: 0, background: '#c67139', boxShadow: 'var(--shadow-lg)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 40 },
+
+      isHoje: tab === 'hoje',
+      isQuadro: tab === 'quadro',
+      isComprasIndex: tab === 'compras' && !listOpen,
+      isListOpen: tab === 'compras' && listOpen,
+      isPerfil: tab === 'perfil',
+      showFab: !listOpen && !s.sheet && tab !== 'perfil',
+      navAbas: nav === 'abas',
+      navPilula: nav === 'pilula',
+      tabs: { hoje: tabStyle('hoje'), quadro: tabStyle('quadro'), compras: tabStyle('compras'), perfil: tabStyle('perfil') },
+      pills: { hoje: pillStyle('hoje'), quadro: pillStyle('quadro'), compras: pillStyle('compras'), perfil: pillStyle('perfil') },
+      pillText: { hoje: pillTextStyle('hoje'), quadro: pillTextStyle('quadro'), compras: pillTextStyle('compras'), perfil: pillTextStyle('perfil') },
+      goHoje: () => this.setState({ tab: 'hoje', openList: null }),
+      goQuadro: () => this.setState({ tab: 'quadro', openList: null }),
+      goCompras: () => this.setState({ tab: 'compras', openList: null }),
+      goPerfil: () => this.setState({ tab: 'perfil', openList: null }),
+
+      progressLabel: doneToday + ' de ' + todayTasks.length + ' feitas',
+      progressPct: pct + '%',
+      progressStyle: { height: '100%', width: pct + '%', borderRadius: 999, background: '#7a8a5e', transition: 'width .4s cubic-bezier(.2,.8,.3,1)' },
+      reminderLine: restantes === 0 ? 'Dia zerado. Vão descansar.' : restantes === 1 ? 'Falta 1. Aviso às 19:00 se ela sobrar.' : 'Faltam ' + restantes + '. Aviso às 19:00 se sobrar alguma.',
+      homeChips,
+      todayLabel: s.homeFilter === 'todos' ? 'Para hoje' : 'Para hoje · ' + PEOPLE[s.homeFilter].name,
+      todayTasks, lateTasks, hasLate: lateTasks.length > 0,
+      hasToday: todayTasks.length > 0,
+      mercadoLabel: mercadoOpen + ' itens na lista do mercado',
+
+      columns, groupChips, peopleChips,
+      isColunas: layout === 'colunas',
+      isLista: layout === 'lista',
+      layoutLabel: layout === 'colunas' ? 'Colunas' : 'Lista',
+      layoutBtn: { display: 'flex', alignItems: 'center', gap: 6, padding: '8px 13px', borderRadius: 999, border: '1px solid rgba(32,30,29,.16)', background: 'transparent', color: '#201e1d', fontFamily: 'var(--font-body)', fontSize: 12.5, cursor: 'pointer', marginTop: 6 },
+      iconCols: { display: layout === 'colunas' ? 'block' : 'none' },
+      iconRows: { display: layout === 'lista' ? 'block' : 'none' },
+      toggleLayout: () => this.setState({ layout: layout === 'colunas' ? 'lista' : 'colunas' }),
+      hideBtn: { padding: '7px 13px', borderRadius: 999, fontFamily: 'var(--font-body)', fontSize: 12.5, whiteSpace: 'nowrap', cursor: 'pointer', border: '1px solid rgba(32,30,29,.16)', background: hideDone ? '#201e1d' : 'transparent', color: hideDone ? '#f5ead8' : '#82796a' },
+      hideLabel: hideDone ? 'Feitas ocultas' : 'Ocultar feitas',
+      toggleHideDone: () => this.setState({ hideDone: !hideDone }),
+
+      lists, frequentes,
+      openNewList: () => this.setState({ sheet: 'list' }),
+      listName: list ? list.name : '',
+      listSub: list ? (list.items.filter(i => !i.done).length + ' de ' + list.items.length + ' faltando') : '',
+      listSections: sections,
+      listEmpty: sections.length === 0,
+      emptyLabel: s.shopMode ? 'Tudo comprado. Podem ir embora.' : 'Lista vazia. Adicione o primeiro item aí embaixo.',
+      listHeaderWrap: { background: list ? TONE_BG[list.tone] : 'transparent', borderRadius: '0 0 34px 34px' },
+      closeList: () => this.setState({ openList: null, shopMode: false }),
+      toggleShop: () => this.setState({ shopMode: !s.shopMode }),
+      shopLabel: s.shopMode ? 'Saindo do mercado' : 'Estou no mercado',
+      shopBtn: { padding: '8px 15px', borderRadius: 999, fontFamily: 'var(--font-body)', fontSize: 12.5, cursor: 'pointer', border: '1px solid rgba(32,30,29,.18)', background: s.shopMode ? '#201e1d' : 'transparent', color: s.shopMode ? '#f5ead8' : '#201e1d' },
+      draft: s.draft,
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      onDraftKey: (e) => { if (e.key === 'Enter') this.addItem(this.state.draft); },
+      addItem: () => this.addItem(this.state.draft),
+
+      rafaDone: weekDone.filter(t => t.owner === 'rafa').length,
+      juDone: weekDone.filter(t => t.owner === 'ju').length,
+      notifs,
+      notifPreview: lateTasks.length ? '“' + lateTasks[0].title + '” está esperando desde ' + (lateTasks[0].late === 1 ? 'ontem' : lateTasks[0].late + ' semanas') + '. Quem pega?' : 'Tudo em dia por aí. Boa noite!',
+      optColunas: optStyle(layout === 'colunas'),
+      optLista: optStyle(layout === 'lista'),
+      setColunas: () => this.setState({ layout: 'colunas' }),
+      setLista: () => this.setState({ layout: 'lista' }),
+      optAbas: optStyle(nav === 'abas'),
+      optPilula: optStyle(nav === 'pilula'),
+      setAbas: () => this.setState({ nav: 'abas' }),
+      setPilula: () => this.setState({ nav: 'pilula' }),
+
+      toastOn: !!s.toast,
+      toastText: s.toast || '',
+
+      sheetOpen: !!s.sheet,
+      closeSheet: () => this.setState({ sheet: null, sheetId: null }),
+      taskSheet: !!sheetTask,
+      sheetTitle: sheetTask ? sheetTask.title : '',
+      sheetFreq: sheetTask ? FREQ[sheetTask.freq] : '',
+      sheetRoom: sheetTask ? sheetTask.room : '',
+      sheetRepeat: sheetTask ? (sheetTask.freq === 'diaria' ? 'Volta sozinha todo dia de manhã' : sheetTask.freq === 'semanal' ? 'Volta sozinha toda ' + DAYS[sheetTask.day].toLowerCase() : sheetTask.freq === 'mensal' ? 'Volta sozinha todo dia ' + sheetTask.monthDay + ' do mês' : 'Não repete') : '',
+      sheetCta: sheetTask && sheetTask.status === 'done' ? 'Desmarcar' : 'Marcar como feita',
+      sheetToggle: () => { this.toggleTask(s.sheetId); this.setState({ sheet: null, sheetId: null }); },
+      sheetRemindSub: sheetTask && sheetTask.remind ? 'Notificação no dia, às 19:00' : 'Sem notificação',
+      remindTrack: remindSw.track, remindKnob: remindSw.knob, toggleRemind: remindSw.toggle,
+      stTodo: this.choice(sheetTask && sheetTask.status === 'todo'),
+      stDoing: this.choice(sheetTask && sheetTask.status === 'doing'),
+      stDone: this.choice(sheetTask && sheetTask.status === 'done'),
+      setTodo: () => this.setStatus(s.sheetId, 'todo'),
+      setDoing: () => this.setStatus(s.sheetId, 'doing'),
+      setDone: () => this.setStatus(s.sheetId, 'done'),
+      aRafa: this.choice(sheetTask && sheetTask.owner === 'rafa'),
+      aJu: this.choice(sheetTask && sheetTask.owner === 'ju'),
+      aNos: this.choice(sheetTask && sheetTask.owner === 'nos'),
+      assignRafa: () => this.setState(st => ({ tasks: st.tasks.map(t => t.id === st.sheetId ? { ...t, owner: 'rafa' } : t) })),
+      assignJu: () => this.setState(st => ({ tasks: st.tasks.map(t => t.id === st.sheetId ? { ...t, owner: 'ju' } : t) })),
+      assignNos: () => this.setState(st => ({ tasks: st.tasks.map(t => t.id === st.sheetId ? { ...t, owner: 'nos' } : t) })),
+
+      addSheet: s.sheet === 'add',
+      openAdd: () => this.setState({ sheet: 'add' }),
+      newTitle: s.newTitle,
+      onNewTitle: (e) => this.setState({ newTitle: e.target.value }),
+      nDiaria: this.choice(s.newFreq === 'diaria'),
+      nSemanal: this.choice(s.newFreq === 'semanal'),
+      nMensal: this.choice(s.newFreq === 'mensal'),
+      nPontual: this.choice(s.newFreq === 'pontual'),
+      freqDiaria: () => this.setState({ newFreq: 'diaria' }),
+      freqSemanal: () => this.setState({ newFreq: 'semanal' }),
+      freqMensal: () => this.setState({ newFreq: 'mensal' }),
+      freqPontual: () => this.setState({ newFreq: 'pontual' }),
+      showMonthPicker: s.newFreq === 'mensal',
+      monthChoices: [1, 5, 10, 15, 20, 25].map(d => ({
+        label: 'Dia ' + d,
+        pick: () => this.setState({ newMonthDay: d }),
+        style: { flex: 1, padding: '9px 0', borderRadius: 14, fontFamily: 'var(--font-body)', fontSize: 12.5, whiteSpace: 'nowrap', cursor: 'pointer', border: s.newMonthDay === d ? '2px solid #c67139' : '2px solid rgba(32,30,29,.12)', background: s.newMonthDay === d ? '#ffe1d0' : 'transparent', color: '#201e1d' }
+      })),
+      showDayPicker: s.newFreq === 'semanal',
+      dayChoices: DAY_KEYS.map(d => ({
+        label: DAYS[d].slice(0, 3),
+        pick: () => this.setState({ newDay: d }),
+        style: { flex: 1, padding: '9px 0', borderRadius: 14, fontFamily: 'var(--font-body)', fontSize: 12.5, cursor: 'pointer', border: s.newDay === d ? '2px solid #c67139' : '2px solid rgba(32,30,29,.12)', background: s.newDay === d ? '#ffe1d0' : 'transparent', color: '#201e1d' }
+      })),
+      nRafa: this.choice(s.newOwner === 'rafa'),
+      nJu: this.choice(s.newOwner === 'ju'),
+      nNos: this.choice(s.newOwner === 'nos'),
+      newRafa: () => this.setState({ newOwner: 'rafa' }),
+      newJu: () => this.setState({ newOwner: 'ju' }),
+      newNos: () => this.setState({ newOwner: 'nos' }),
+      createTask: () => this.createTask(),
+
+      listSheet: s.sheet === 'list',
+      newListName: s.newListName,
+      onNewListName: (e) => this.setState({ newListName: e.target.value }),
+      toneChoices: ['accent', 'accent2', 'neutral'].map(t => ({
+        pick: () => this.setState({ newListTone: t }),
+        style: { width: 52, height: 52, borderRadius: 18, cursor: 'pointer', background: TONE_BG[t], border: s.newListTone === t ? '3px solid ' + TONE_INK[t] : '3px solid transparent' }
+      })),
+      secTrack: secSw.track, secKnob: secSw.knob, toggleNewSections: secSw.toggle,
+      createList: () => this.createList()
+    };
+  }
+}
+</script>
+</body>
+</html>
