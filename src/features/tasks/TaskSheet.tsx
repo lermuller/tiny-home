@@ -1,10 +1,11 @@
-import { RefreshCw, Bell } from 'lucide-react'
+import { RefreshCw, Bell, History } from 'lucide-react'
 import type { CSSProperties } from 'react'
 import { Sheet } from '../../components/Sheet'
 import { Switch } from '../../components/Switch'
 import { FREQ } from '../../lib/people'
 import type { Member, Task, TaskStatus } from '../../lib/types'
 import { taskRepeatLine } from './decorate'
+import { useTaskHistory } from './useTaskHistory'
 
 interface TaskSheetProps {
   task: Task | null
@@ -35,7 +36,15 @@ function choiceStyle(active: boolean): CSSProperties {
   }
 }
 
+function historyLine(count: number, avgDays: number | null) {
+  if (count === 1) return 'Feita 1 vez nos últimos 3 meses.'
+  const avg = avgDays === 1 ? '1 dia' : `${avgDays} dias`
+  return `Feita ${count} vezes nos últimos 3 meses, em média a cada ${avg}.`
+}
+
 export function TaskSheet({ task, members, onClose, onSetStatus, onSetOwner, onToggleRemind, onToggleDone }: TaskSheetProps) {
+  const history = useTaskHistory(task?.id ?? null)
+
   return (
     <Sheet open={!!task} onClose={onClose}>
       {task && (
@@ -54,12 +63,28 @@ export function TaskSheet({ task, members, onClose, onSetStatus, onSetOwner, onT
               gap: 7,
               fontSize: 13,
               color: 'var(--color-neutral-700)',
-              marginBottom: 20,
+              marginBottom: history && history.count > 0 ? 6 : 20,
             }}
           >
             <RefreshCw size={14} strokeWidth={2.75} />
             {taskRepeatLine(task)}
           </div>
+
+          {history && history.count > 0 && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 7,
+                fontSize: 13,
+                color: 'var(--color-neutral-700)',
+                marginBottom: 20,
+              }}
+            >
+              <History size={14} strokeWidth={2.75} />
+              {historyLine(history.count, history.avgDays)}
+            </div>
+          )}
 
           <div
             style={{

@@ -6,10 +6,14 @@ import { useMe, type NotifPrefs } from '../../features/auth/useMe'
 import { useMembers } from '../../features/members/useMembers'
 import { useTasks } from '../../features/tasks/useTasks'
 import { useWeeklyCompletions } from '../../features/members/useWeeklyCompletions'
+import { useRecentCompletions } from '../../features/members/useRecentCompletions'
+import { formatRelativeDateTime } from '../../lib/formatDate'
 import { useAppearance } from '../../features/settings/useAppearance'
 import { isLate } from '../../features/tasks/decorate'
 import { daysBetween, todayISO } from '../../features/tasks/dueDate'
 import { supabase } from '../../lib/supabase'
+import { ensurePushSubscription } from '../../lib/push'
+import { useToast } from '../../components/useToast'
 
 const NOTIF_DEFS: { key: keyof NotifPrefs; title: string; sub: string }[] = [
   { key: 'manha', title: 'Resumo do dia', sub: 'Todo dia às 8:00, o que é de cada um' },
@@ -49,6 +53,21 @@ export function Casa() {
   const { tasks } = useTasks()
   const weeklyDone = useWeeklyCompletions()
   const { boardLayout, navStyle, setBoardLayout, setNavStyle } = useAppearance()
+  const showToast = useToast()
+  const { completions } = useRecentCompletions(30)
+
+  async function handleToggleNotif(key: keyof NotifPrefs) {
+    const turningOn = !me?.notif_prefs[key]
+    await toggleNotifPref(key)
+    if (!turningOn || !me) return
+
+    const result = await ensurePushSubscription(me.id)
+    if (result === 'denied') {
+      showToast('Notificação bloqueada no navegador. Ative nas permissões do site pra receber avisos.')
+    } else if (result === 'unsupported') {
+      showToast('Este navegador não suporta notificações push.')
+    }
+  }
 
   const lateTasks = tasks.filter((t) => isLate(t)).sort((a, b) => (a.due_on ?? '').localeCompare(b.due_on ?? ''))
   const oldest = lateTasks[0]
@@ -96,6 +115,42 @@ export function Casa() {
         ))}
       </div>
 
+      {completions.length > 0 && (
+        <div style={{ background: 'var(--color-surface)', borderRadius: 26, padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ ...kicker, marginBottom: 6 }}>Últimas conclusões</div>
+          {completions.map((c) => (
+            <div
+              key={c.id}
+              style={{ display: 'flex', alignItems: 'center', gap: 13, padding: '11px 0', borderBottom: '1px solid var(--color-divider)' }}
+            >
+              <div
+                style={{
+                  width: 28,
+                  height: 28,
+                  flex: 'none',
+                  borderRadius: 999,
+                  background: c.memberColor ?? 'var(--color-neutral-500)',
+                  color: '#fff8ef',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 12,
+                  fontWeight: 700,
+                }}
+              >
+                {c.memberInitial ?? '?'}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 14, fontWeight: 600 }}>{c.taskTitle}</div>
+                <div style={{ fontSize: 11.5, color: 'var(--color-neutral-700)', marginTop: 2 }}>
+                  {c.memberName ?? 'Alguém'} · {formatRelativeDateTime(c.completedAt)}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div style={{ background: 'var(--color-surface)', borderRadius: 26, padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 4 }}>
         <div style={{ ...kicker, marginBottom: 6 }}>Avisos</div>
         {NOTIF_DEFS.map((n) => (
@@ -107,7 +162,7 @@ export function Casa() {
               <div style={{ fontSize: 14.5, fontWeight: 600 }}>{n.title}</div>
               <div style={{ fontSize: 11.5, color: 'var(--color-neutral-700)', marginTop: 2 }}>{n.sub}</div>
             </div>
-            <Switch on={me?.notif_prefs[n.key] ?? false} onToggle={() => toggleNotifPref(n.key)} label={n.title} />
+            <Switch on={me?.notif_prefs[n.key] ?? false} onToggle={() => void handleToggleNotif(n.key)} label={n.title} />
           </div>
         ))}
         <div
