@@ -131,7 +131,7 @@ export function Login() {
             placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ minHeight: 44, textAlign: 'center' }}
+            style={{ minHeight: 44, textAlign: 'center', fontSize: 16 }}
           />
           {status === 'error' && (
             <div style={{ fontSize: 13, color: 'var(--color-accent-700)', textAlign: 'center' }}>{errorMessage}</div>

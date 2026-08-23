@@ -98,7 +98,7 @@ export function NewTaskSheet({ open, members, defaultOwnerId, onClose, onCreate 
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="O que precisa ser feito?"
-        style={{ fontSize: 15, minHeight: 46, marginBottom: 16 }}
+        style={{ fontSize: 16, minHeight: 46, marginBottom: 16 }}
       />
 
       <div style={kicker}>Com que frequência</div>

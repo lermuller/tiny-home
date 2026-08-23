@@ -34,7 +34,7 @@ export function NewListSheet({ open, onClose, onCreate }: NewListSheetProps) {
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Ex: Ferragem, Pet, Presentes…"
-        style={{ fontSize: 15, minHeight: 46, marginBottom: 16 }}
+        style={{ fontSize: 16, minHeight: 46, marginBottom: 16 }}
       />
       <div
         style={{

@@ -170,7 +170,7 @@ export function ComprasLista() {
               outline: 'none',
               background: 'transparent',
               fontFamily: 'var(--font-body)',
-              fontSize: 15,
+              fontSize: 16,
               color: 'var(--color-text)',
               minWidth: 0,
             }}
