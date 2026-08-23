@@ -138,5 +138,18 @@ export function useLists() {
     }
   }
 
-  return { lists, loading, createList, addItem, toggleItem }
+  async function deleteItem(listId: string, itemId: string) {
+    const list = lists.find((l) => l.id === listId)
+    const item = list?.items.find((i) => i.id === itemId)
+    if (!item) return
+
+    setLists((prev) => prev.map((l) => (l.id !== listId ? l : { ...l, items: l.items.filter((i) => i.id !== itemId) })))
+
+    const { error } = await supabase.from('list_items').delete().eq('id', itemId)
+    if (error) {
+      setLists((prev) => prev.map((l) => (l.id !== listId ? l : { ...l, items: [...l.items, item] })))
+    }
+  }
+
+  return { lists, loading, createList, addItem, toggleItem, deleteItem }
 }

@@ -1,4 +1,4 @@
-import { RefreshCw, Bell, History } from 'lucide-react'
+import { RefreshCw, Bell, History, Trash2 } from 'lucide-react'
 import type { CSSProperties } from 'react'
 import { Sheet } from '../../components/Sheet'
 import { Switch } from '../../components/Switch'
@@ -15,6 +15,7 @@ interface TaskSheetProps {
   onSetOwner: (id: string, ownerId: string | null) => void
   onToggleRemind: (id: string) => void
   onToggleDone: (id: string) => void
+  onDelete: (id: string) => void
 }
 
 function choiceStyle(active: boolean): CSSProperties {
@@ -42,8 +43,15 @@ function historyLine(count: number, avgDays: number | null) {
   return `Feita ${count} vezes nos últimos 3 meses, em média a cada ${avg}.`
 }
 
-export function TaskSheet({ task, members, onClose, onSetStatus, onSetOwner, onToggleRemind, onToggleDone }: TaskSheetProps) {
+export function TaskSheet({ task, members, onClose, onSetStatus, onSetOwner, onToggleRemind, onToggleDone, onDelete }: TaskSheetProps) {
   const history = useTaskHistory(task?.id ?? null)
+
+  function handleDelete() {
+    if (!task) return
+    if (!window.confirm(`Excluir "${task.title}"? Isso apaga o histórico dela também e não pode ser desfeito.`)) return
+    onDelete(task.id)
+    onClose()
+  }
 
   return (
     <Sheet open={!!task} onClose={onClose}>
@@ -189,6 +197,30 @@ export function TaskSheet({ task, members, onClose, onSetStatus, onSetOwner, onT
               Fechar
             </button>
           </div>
+
+          <button
+            type="button"
+            onClick={handleDelete}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 6,
+              width: '100%',
+              marginTop: 14,
+              padding: 10,
+              minHeight: 44,
+              background: 'transparent',
+              border: 0,
+              fontFamily: 'var(--font-body)',
+              fontSize: 13,
+              color: 'var(--color-accent-700)',
+              cursor: 'pointer',
+            }}
+          >
+            <Trash2 size={14} strokeWidth={2.75} />
+            Excluir tarefa
+          </button>
         </>
       )}
     </Sheet>

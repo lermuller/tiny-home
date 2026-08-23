@@ -10,7 +10,7 @@ import { TONE_BG } from '../../features/lists/tone'
 export function ComprasLista() {
   const { listId } = useParams()
   const navigate = useNavigate()
-  const { lists, loading, addItem, toggleItem } = useLists()
+  const { lists, loading, addItem, toggleItem, deleteItem } = useLists()
   const { me } = useMe()
   const [shopMode, setShopMode] = useState(false)
   const [draft, setDraft] = useState('')
@@ -120,7 +120,13 @@ export function ComprasLista() {
             {items
               .filter((i) => i.sec === sec)
               .map((item) => (
-                <ItemRow key={item.id} item={item} shopMode={shopMode} onToggle={() => void toggleItem(list.id, item.id)} />
+                <ItemRow
+                  key={item.id}
+                  item={item}
+                  shopMode={shopMode}
+                  onToggle={() => void toggleItem(list.id, item.id)}
+                  onDelete={() => void deleteItem(list.id, item.id)}
+                />
               ))}
           </div>
         ))}

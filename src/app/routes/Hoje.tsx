@@ -15,7 +15,7 @@ import { useLists } from '../../features/lists/useLists'
 
 export function Hoje() {
   const navigate = useNavigate()
-  const { tasks, loading, setStatus, toggleTask, setOwner, toggleRemind } = useTasks()
+  const { tasks, loading, setStatus, toggleTask, setOwner, toggleRemind, deleteTask } = useTasks()
   const { members, loading: membersLoading } = useMembers()
   const { me } = useMe()
   const { lists } = useLists()
@@ -244,6 +244,7 @@ export function Hoje() {
         onSetOwner={setOwner}
         onToggleRemind={toggleRemind}
         onToggleDone={(id) => handleToggle(id)}
+        onDelete={(id) => void deleteTask(id)}
       />
     </div>
   )

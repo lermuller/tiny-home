@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { Logo } from '../../components/Logo'
 import { Avatar } from '../../components/Avatar'
 import { Switch } from '../../components/Switch'
@@ -50,11 +50,22 @@ function optionStyle(active: boolean): CSSProperties {
 export function Casa() {
   const { me, toggleNotifPref } = useMe()
   const { members } = useMembers()
-  const { tasks } = useTasks()
+  const { tasks, clearBoard } = useTasks()
   const weeklyDone = useWeeklyCompletions()
   const { boardLayout, navStyle, setBoardLayout, setNavStyle } = useAppearance()
   const showToast = useToast()
   const { completions } = useRecentCompletions(30)
+  const [showAllCompletions, setShowAllCompletions] = useState(false)
+
+  async function handleClearBoard() {
+    if (tasks.length === 0) return
+    const confirmed = window.confirm(
+      `Excluir todas as ${tasks.length} tarefas do quadro? Isso apaga o histórico delas também e não pode ser desfeito.`,
+    )
+    if (!confirmed) return
+    const { error } = await clearBoard()
+    showToast(error ? 'Não deu pra limpar o quadro. Tenta de novo.' : 'Quadro limpo.')
+  }
 
   async function handleToggleNotif(key: keyof NotifPrefs) {
     const turningOn = !me?.notif_prefs[key]
@@ -118,7 +129,7 @@ export function Casa() {
       {completions.length > 0 && (
         <div style={{ background: 'var(--color-surface)', borderRadius: 26, padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 4 }}>
           <div style={{ ...kicker, marginBottom: 6 }}>Últimas conclusões</div>
-          {completions.map((c) => (
+          {(showAllCompletions ? completions : completions.slice(0, 5)).map((c) => (
             <div
               key={c.id}
               style={{ display: 'flex', alignItems: 'center', gap: 13, padding: '11px 0', borderBottom: '1px solid var(--color-divider)' }}
@@ -148,6 +159,26 @@ export function Casa() {
               </div>
             </div>
           ))}
+          {completions.length > 5 && (
+            <button
+              type="button"
+              onClick={() => setShowAllCompletions((s) => !s)}
+              style={{
+                marginTop: 10,
+                padding: '10px 0',
+                minHeight: 44,
+                background: 'transparent',
+                border: 0,
+                fontFamily: 'var(--font-body)',
+                fontSize: 13,
+                fontWeight: 600,
+                color: 'var(--color-accent-700)',
+                cursor: 'pointer',
+              }}
+            >
+              {showAllCompletions ? 'Ver menos' : `Ver mais (${completions.length - 5})`}
+            </button>
+          )}
         </div>
       )}
 
@@ -214,6 +245,18 @@ export function Casa() {
         <p style={{ fontSize: 13.5, margin: 0, color: 'var(--color-accent-2-900)', lineHeight: 1.5 }}>
           Quem cozinha não lava a louça. Domingo à noite, cinco minutos pra planejar a semana juntos.
         </p>
+      </div>
+
+      <div style={{ background: 'var(--color-surface)', borderRadius: 26, padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={kicker}>Zona de risco</div>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          style={{ alignSelf: 'flex-start', minHeight: 44, color: 'var(--color-accent-700)', borderColor: 'var(--color-accent-300)' }}
+          onClick={() => void handleClearBoard()}
+        >
+          Limpar o quadro
+        </button>
       </div>
 
       <button

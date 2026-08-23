@@ -179,5 +179,38 @@ export function useTasks() {
     }
   }
 
-  return { tasks, loading, error, setStatus, toggleTask, setOwner, toggleRemind }
+  async function deleteTask(id: string) {
+    const prev = rawTasks.find((t) => t.id === id)
+    if (!prev) return
+    setRawTasks((list) => list.filter((t) => t.id !== id))
+    setCompletedTodayIds((set) => {
+      if (!set.has(id)) return set
+      const next = new Set(set)
+      next.delete(id)
+      return next
+    })
+
+    const { error } = await supabase.from('tasks').delete().eq('id', id)
+    if (error) {
+      setRawTasks((list) => [...list, prev].sort((a, b) => a.id.localeCompare(b.id)))
+      setError(error.message)
+    }
+  }
+
+  // apaga todas as tarefas do domicílio — usado em Nossa casa > "Limpar o quadro"
+  async function clearBoard() {
+    const prev = rawTasks
+    setRawTasks([])
+    setCompletedTodayIds(new Set())
+
+    const { error } = await supabase.from('tasks').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+    if (error) {
+      setRawTasks(prev)
+      setError(error.message)
+      return { error: error.message }
+    }
+    return { error: null }
+  }
+
+  return { tasks, loading, error, setStatus, toggleTask, setOwner, toggleRemind, deleteTask, clearBoard }
 }

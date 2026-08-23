@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 
 interface SheetProps {
   open: boolean
@@ -6,7 +6,40 @@ interface SheetProps {
   children: ReactNode
 }
 
+// Um sheet position:fixed;bottom:0 fica preso à base da layout viewport, não da área visível —
+// quando o teclado abre, o Safari/Chrome mobile não encolhem essa base, e o sheet (ou pelo menos
+// os botões no fim dele) ficam escondidos atrás do teclado. A Visual Viewport API avisa o quanto
+// da tela ficou coberto, e a gente sobe o sheet exatamente essa distância.
+function useKeyboardInset(active: boolean) {
+  const [inset, setInset] = useState(0)
+
+  useEffect(() => {
+    const vv = window.visualViewport
+    if (!active || !vv) {
+      setInset(0)
+      return
+    }
+
+    function update() {
+      const hidden = window.innerHeight - (vv!.height + vv!.offsetTop)
+      setInset(Math.max(0, Math.round(hidden)))
+    }
+
+    update()
+    vv.addEventListener('resize', update)
+    vv.addEventListener('scroll', update)
+    return () => {
+      vv.removeEventListener('resize', update)
+      vv.removeEventListener('scroll', update)
+    }
+  }, [active])
+
+  return inset
+}
+
 export function Sheet({ open, onClose, children }: SheetProps) {
+  const keyboardInset = useKeyboardInset(open)
+
   if (!open) return null
 
   return (
@@ -26,15 +59,16 @@ export function Sheet({ open, onClose, children }: SheetProps) {
           position: 'fixed',
           left: 0,
           right: 0,
-          bottom: 0,
+          bottom: keyboardInset,
           zIndex: 70,
           background: 'var(--color-bg)',
           borderRadius: '34px 34px 0 0',
           padding: '14px 22px 40px',
           animation: 'sheetUp .26s cubic-bezier(.2,.8,.3,1)',
           boxShadow: 'var(--shadow-lg)',
-          maxHeight: '86dvh',
+          maxHeight: `calc(86dvh - ${keyboardInset}px)`,
           overflowY: 'auto',
+          transition: 'bottom .12s ease',
         }}
       >
         <div

@@ -1,14 +1,22 @@
-import { Check } from 'lucide-react'
+import { Check, Trash2 } from 'lucide-react'
+import type { MouseEvent } from 'react'
 import type { ListItem } from '../../lib/types'
 
 interface ItemRowProps {
   item: ListItem
   shopMode: boolean
   onToggle: () => void
+  onDelete: () => void
 }
 
-export function ItemRow({ item, shopMode, onToggle }: ItemRowProps) {
+export function ItemRow({ item, shopMode, onToggle, onDelete }: ItemRowProps) {
   const done = item.done
+
+  function handleDelete(e: MouseEvent) {
+    e.stopPropagation()
+    if (!window.confirm(`Excluir "${item.name}" da lista?`)) return
+    onDelete()
+  }
 
   return (
     <div
@@ -52,6 +60,26 @@ export function ItemRow({ item, shopMode, onToggle }: ItemRowProps) {
       >
         {item.name}
       </div>
+      <button
+        type="button"
+        onClick={handleDelete}
+        aria-label={`Excluir ${item.name}`}
+        style={{
+          width: 44,
+          height: 44,
+          flex: 'none',
+          margin: '-10px -12px -10px 0',
+          background: 'transparent',
+          border: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'var(--color-neutral-500)',
+          cursor: 'pointer',
+        }}
+      >
+        <Trash2 size={16} strokeWidth={2.5} />
+      </button>
     </div>
   )
 }
