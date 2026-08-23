@@ -9,6 +9,7 @@ import { useMe } from '../features/auth/useMe'
 import { useToast } from '../components/useToast'
 import { NewTaskSheet } from '../features/tasks/NewTaskSheet'
 import { createTask } from '../features/tasks/createTask'
+import { useAnySheetOpen } from '../components/useAnySheetOpen'
 import { WEEKDAY_LABELS } from '../lib/people'
 import type { Freq } from '../lib/types'
 
@@ -27,8 +28,9 @@ export function Layout() {
   const { me } = useMe()
   const showToast = useToast()
   const [sheetOpen, setSheetOpen] = useState(false)
+  const anySheetOpen = useAnySheetOpen()
 
-  const showFab = pathname !== '/casa' && !/^\/compras\/.+/.test(pathname)
+  const showFab = pathname !== '/casa' && !/^\/compras\/.+/.test(pathname) && !anySheetOpen
 
   async function handleCreateTask(input: { title: string; frequency: Freq; ownerId: string | null; weekday: number | null; monthDay: number | null }) {
     setSheetOpen(false)

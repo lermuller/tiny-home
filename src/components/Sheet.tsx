@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
+import { sheetVisibility } from './sheetVisibility'
 
 interface SheetProps {
   open: boolean
@@ -22,7 +23,10 @@ function useKeyboardInset(active: boolean) {
 
     function update() {
       const hidden = window.innerHeight - (vv!.height + vv!.offsetTop)
-      setInset(Math.max(0, Math.round(hidden)))
+      // a barra de endereço do mobile Safari também encolhe a visual viewport (por ~50-100px) sem
+      // teclado nenhum aberto — só trata como teclado de verdade acima de um teclado físico mínimo,
+      // senão o sheet sobe (e descola da barra de navegação) toda hora à toa.
+      setInset(hidden > 150 ? Math.round(hidden) : 0)
     }
 
     update()
@@ -39,6 +43,12 @@ function useKeyboardInset(active: boolean) {
 
 export function Sheet({ open, onClose, children }: SheetProps) {
   const keyboardInset = useKeyboardInset(open)
+
+  useEffect(() => {
+    if (!open) return
+    sheetVisibility.register()
+    return () => sheetVisibility.unregister()
+  }, [open])
 
   if (!open) return null
 
