@@ -240,7 +240,7 @@ export function Hoje() {
         task={sheetTask}
         members={members}
         onClose={() => setSheetTaskId(null)}
-        onSetStatus={setStatus}
+        onSetStatus={(id, status) => { if (me) void setStatus(id, status, me.id) }}
         onSetOwner={setOwner}
         onToggleRemind={toggleRemind}
         onToggleDone={(id) => handleToggle(id)}
