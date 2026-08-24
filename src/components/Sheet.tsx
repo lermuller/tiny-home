@@ -10,23 +10,49 @@ interface SheetProps {
 // Um sheet position:fixed;bottom:0 fica preso à base da layout viewport, não da área visível —
 // quando o teclado abre, o Safari/Chrome mobile não encolhem essa base, e o sheet (ou pelo menos
 // os botões no fim dele) ficam escondidos atrás do teclado. A Visual Viewport API avisa o quanto
-// da tela ficou coberto, e a gente sobe o sheet exatamente essa distância.
+// da tela ficou coberto — mas a barra de endereço do mobile Safari encolhe/expande a mesma
+// viewport (às vezes bem mais que um valor fixo de corte), sem teclado nenhum aberto. Por isso só
+// aplicamos o desconto enquanto um campo de texto está mesmo focado — é a única situação em que um
+// teclado de verdade pode estar na tela.
 function useKeyboardInset(active: boolean) {
   const [inset, setInset] = useState(0)
+  const [fieldFocused, setFieldFocused] = useState(false)
+
+  useEffect(() => {
+    if (!active) {
+      setFieldFocused(false)
+      return
+    }
+
+    function isField(el: EventTarget | null) {
+      const tag = (el as HTMLElement)?.tagName
+      return tag === 'INPUT' || tag === 'TEXTAREA'
+    }
+    function onFocusIn(e: FocusEvent) {
+      if (isField(e.target)) setFieldFocused(true)
+    }
+    function onFocusOut(e: FocusEvent) {
+      if (isField(e.target)) setFieldFocused(false)
+    }
+
+    document.addEventListener('focusin', onFocusIn)
+    document.addEventListener('focusout', onFocusOut)
+    return () => {
+      document.removeEventListener('focusin', onFocusIn)
+      document.removeEventListener('focusout', onFocusOut)
+    }
+  }, [active])
 
   useEffect(() => {
     const vv = window.visualViewport
-    if (!active || !vv) {
+    if (!active || !vv || !fieldFocused) {
       setInset(0)
       return
     }
 
     function update() {
       const hidden = window.innerHeight - (vv!.height + vv!.offsetTop)
-      // a barra de endereço do mobile Safari também encolhe a visual viewport (por ~50-100px) sem
-      // teclado nenhum aberto — só trata como teclado de verdade acima de um teclado físico mínimo,
-      // senão o sheet sobe (e descola da barra de navegação) toda hora à toa.
-      setInset(hidden > 150 ? Math.round(hidden) : 0)
+      setInset(Math.max(0, Math.round(hidden)))
     }
 
     update()
@@ -36,7 +62,7 @@ function useKeyboardInset(active: boolean) {
       vv.removeEventListener('resize', update)
       vv.removeEventListener('scroll', update)
     }
-  }, [active])
+  }, [active, fieldFocused])
 
   return inset
 }
