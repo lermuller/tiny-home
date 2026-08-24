@@ -30,7 +30,7 @@ export function Layout() {
   const [sheetOpen, setSheetOpen] = useState(false)
   const anySheetOpen = useAnySheetOpen()
 
-  const showFab = pathname !== '/casa' && !/^\/compras\/.+/.test(pathname) && !anySheetOpen
+  const showFab = (pathname === '/hoje' || pathname === '/quadro') && !anySheetOpen
 
   async function handleCreateTask(input: { title: string; frequency: Freq; ownerId: string | null; weekday: number | null; monthDay: number | null }) {
     setSheetOpen(false)

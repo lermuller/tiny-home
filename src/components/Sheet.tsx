@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { sheetVisibility } from './sheetVisibility'
 
 interface SheetProps {
@@ -78,7 +79,12 @@ export function Sheet({ open, onClose, children }: SheetProps) {
 
   if (!open) return null
 
-  return (
+  // Renderiza direto em document.body: um <div style="overflow:auto"> ancestral (a área de rolagem
+  // do Layout) faz o Safari no iPhone conter elementos position:fixed dentro dos SEUS próprios
+  // limites em vez da tela inteira — então bottom:0 virava "embaixo da área de rolagem", que
+  // termina onde a barra de navegação começa, não no fim de verdade da tela. Fora da árvore, esse
+  // problema não existe.
+  return createPortal(
     <>
       <div
         onClick={onClose}
@@ -118,6 +124,7 @@ export function Sheet({ open, onClose, children }: SheetProps) {
         />
         {children}
       </div>
-    </>
+    </>,
+    document.body,
   )
 }
