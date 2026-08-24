@@ -10,7 +10,7 @@ import { TONE_BG } from '../../features/lists/tone'
 export function ComprasLista() {
   const { listId } = useParams()
   const navigate = useNavigate()
-  const { lists, loading, addItem, toggleItem, deleteItem } = useLists()
+  const { lists, loading, addItem, toggleItem, renameItem, deleteItem } = useLists()
   const { me } = useMe()
   const [shopMode, setShopMode] = useState(false)
   const [draft, setDraft] = useState('')
@@ -125,6 +125,7 @@ export function ComprasLista() {
                   item={item}
                   shopMode={shopMode}
                   onToggle={() => void toggleItem(list.id, item.id)}
+                  onRename={(name) => void renameItem(list.id, item.id, name)}
                   onDelete={() => void deleteItem(list.id, item.id)}
                 />
               ))}
